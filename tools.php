@@ -1,6 +1,6 @@
 <?php
 function createFile($fileName, $data){
-   $f = fopen("./participants/$fileName.txt",'r');
+   $f = isUser($fileName);
    if(!$f){
      $f = fopen("./participants/$fileName.txt", "x+");
      fputs($f, $data);
@@ -17,11 +17,14 @@ function isUser($login){
     return fopen("./participants/$login.txt",'r');
 }
 function afficherParticipants(){
-  $dir = dir("./participants");
+  $participants = scandir("./participants");
+  $participants =array_values(array_diff($participants, array('..', '.')));
+  print_r($participants);
+
   echo "<ul>";
-     while($nom = $dir->read()){
-         echo "<li>$nom <br/><li>";
-     }
+  foreach ($participants as $participant) {
+    echo "<li>$participant<li>" ;
+  }
   echo "<ul>";
 }
  ?>
